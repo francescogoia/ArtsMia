@@ -34,9 +34,23 @@ class View(ft.UserControl):
                                                   bgcolor="orange",
                                                   color="white",
                                                   width=200)
-
-        self._page.controls.append(ft.Row([self._btnAnalizzaOggetti, self._txtIdOggetto, self._btnCompConnessa],
+        self._page.controls.append(ft.Row([ft.Container(self._btnAnalizzaOggetti, width=250),
+                                           ft.Container(self._txtIdOggetto, width=250),
+                                           ft.Container(self._btnCompConnessa, width=250)],
                                           alignment=ft.MainAxisAlignment.CENTER))
+
+        self.DD_lun = ft.Dropdown(label="Lunghezza", border_color="orange", disabled=True)
+        self._btn_cerca_percorso = ft.ElevatedButton(text="Cerca oggetti",
+                                                     on_click=self._controller.handleCercaPercorso,
+                                                     bgcolor="orange",
+                                                     disabled=True)
+        row2 = ft.Row([ft.Container(ft.Text(""), width=250),
+                        ft.Container(self.DD_lun, width=250),
+                        ft.Container(self._btn_cerca_percorso, width=250)], alignment=ft.MainAxisAlignment.CENTER)
+
+
+        self._page.controls.append(row2)
+        self._page.update()
 
         # List View where the reply is printed
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
@@ -46,11 +60,13 @@ class View(ft.UserControl):
     @property
     def controller(self):
         return self._controller
+
     @controller.setter
     def controller(self, controller):
         self._controller = controller
 
     def set_controller(self, controller):
         self._controller = controller
+
     def update_page(self):
         self._page.update()
